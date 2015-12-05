@@ -1,6 +1,6 @@
 FROM resin/rpi-raspbian
 
-MAINTAINER Andreas Eiermann <andreas@hypriot.com>
+MAINTAINER Bastian Rinsche <hi@bastianrinsche.de>
 
 RUN apt-get update && \
 apt-get install -yqq \
@@ -29,7 +29,7 @@ mkdir /gogits
 
 WORKDIR /gogits
 
-ADD ./content/ /gogits/
+ADD ./gogs/ /gogits/
 
 ADD start.sh /gogits/
 RUN chmod a+x start.sh
