@@ -42,13 +42,14 @@ fi
 
 if ! test -f ~git/.ssh/environment
 then
-  echo "GOGS_CUSTOM=/data/gogs" > ~git/.ssh/environment
+  echo "GOGS_CUSTOM=/custom" > ~git/.ssh/environment
   chown git:git ~git/.ssh/environment
   chown 600 ~git/.ssh/environment
 fi
 
 chown -R git:git /data .
 chown -R git:git ~git/.ssh
+chown -R git:git /custom
 
 netstat -tlpen
 ps
