@@ -24,7 +24,7 @@ RUN echo "PermitUserEnvironment yes" >> /etc/ssh/sshd_config
 
 # prepare data
 ENV GOGS_CUSTOM /data/gogs
-RUN echo "export GOGS_CUSTOM=/data/gogs" >> /etc/profile && \
+RUN echo "export GOGS_CUSTOM=/custom" >> /etc/profile && \
 mkdir /gogits
 
 WORKDIR /gogits
