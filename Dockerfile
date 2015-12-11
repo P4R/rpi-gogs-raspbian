@@ -23,7 +23,7 @@ RUN echo "export VISIBLE=now" >> /etc/profile
 RUN echo "PermitUserEnvironment yes" >> /etc/ssh/sshd_config
 
 # prepare data
-ENV GOGS_CUSTOM /data/gogs
+ENV GOGS_CUSTOM /custom
 RUN echo "export GOGS_CUSTOM=/custom" >> /etc/profile && \
 mkdir /gogits
 
