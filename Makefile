@@ -1,7 +1,7 @@
 IMAGENAME := $(shell basename `git rev-parse --show-toplevel`)
 SHA := $(shell git rev-parse --short HEAD)
 timestamp := $(shell date +"%Y%m%d%H%M")
-GOGS_VERSION := 0.8.10
+GOGS_VERSION := 0.8.25
 
 default: docker
 
