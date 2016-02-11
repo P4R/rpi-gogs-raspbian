@@ -1,40 +1,25 @@
 IMAGENAME := $(shell basename `git rev-parse --show-toplevel`)
 SHA := $(shell git rev-parse --short HEAD)
-targz_file := $(shell cat FILEPATH)
 timestamp := $(shell date +"%Y%m%d%H%M")
+GOGS_VERSION := 0.8.25
 
 default: docker
 
-loadS3_and_extract:
-	aws s3 cp s3://$(AWS_BUCKET)/$(targz_file) ./binary.tar.gz
-	mkdir content/
-	tar xzf binary.tar.gz -C content/
-	ls -la content/
+download_gogs:
+	curl -L https://github.com/gogits/gogs/releases/download/v$(GOGS_VERSION)/raspi2.zip > raspi2.zip
+	unzip -oq raspi2.zip
+	ls -la gogs/
 
 dockerbuild:
-	docker rmi -f $(NAMESPACE)/$(IMAGENAME):bak || true
-	docker tag $(NAMESPACE)/$(IMAGENAME) $(NAMESPACE)/$(IMAGENAME):bak || true
-	docker rmi -f $(NAMESPACE)/$(IMAGENAME) || true
-	docker build -t $(NAMESPACE)/$(IMAGENAME) .
+	docker rmi -f $(IMAGENAME):bak || true
+	docker tag $(IMAGENAME) $(IMAGENAME):bak || true
+	docker rmi -f $(IMAGENAME) || true
+	docker build -t $(IMAGENAME) .
 
 testimg:
 	docker rm -f new-$(IMAGENAME) || true
-	docker run -d --name new-$(IMAGENAME) $(NAMESPACE)/$(IMAGENAME):latest
+	docker run -d --name new-$(IMAGENAME) $(IMAGENAME):latest
 	docker inspect -f '{{.NetworkSettings.IPAddress}}' new-$(IMAGENAME)
 	docker logs -f new-$(IMAGENAME)
 
-push:
-
-	docker tag -f $(NAMESPACE)/$(IMAGENAME):latest $(REGISTRY_URL)/$(NAMESPACE)/$(IMAGENAME):$(SHA)
-	docker push $(REGISTRY_URL)/$(NAMESPACE)/$(IMAGENAME):$(SHA)
-	docker rmi $(REGISTRY_URL)/$(NAMESPACE)/$(IMAGENAME):$(SHA) || true
-	docker tag -f $(NAMESPACE)/$(IMAGENAME):latest $(REGISTRY_URL)/$(NAMESPACE)/$(IMAGENAME):$(timestamp)
-	docker push $(REGISTRY_URL)/$(NAMESPACE)/$(IMAGENAME):$(timestamp)
-	docker rmi $(REGISTRY_URL)/$(NAMESPACE)/$(IMAGENAME):$(timestamp) || true
-	docker tag -f $(NAMESPACE)/$(IMAGENAME):latest $(REGISTRY_URL)/$(NAMESPACE)/$(IMAGENAME):latest
-	docker push $(REGISTRY_URL)/$(NAMESPACE)/$(IMAGENAME):latest
-	docker rmi $(REGISTRY_URL)/$(NAMESPACE)/$(IMAGENAME):latest || true
-
-        
-docker: loadS3_and_extract dockerbuild push
-        	
+docker: download_gogs dockerbuild

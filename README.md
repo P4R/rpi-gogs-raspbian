@@ -1,40 +1,12 @@
-# rpi-gogs-raspbian [![Build Status](http://armbuilder2.hypriot.com/api/badge/github.com/hypriot/rpi-gogs-raspbian/status.svg?branch=master)](http://armbuilder.hypriot.com/github.com/hypriot/rpi-gogs-raspbian)
+# rpi-gogs-raspbian
 
-Raspberry Pi compatible Docker Image with a minimal `gogs git` server.
+Personal fork of a Raspberry Pi compatible Docker Image with a minimal `gogs git` server.
 
 ## Details
 - [BLOG with tutorial](http://blog.hypriot.com/post/run-your-own-github-like-service-with-docker/)
 - [Source Project Page](https://github.com/hypriot)
 - [Source Repository](https://github.com/hypriot/rpi-gogs-raspbian)
 - [Dockerfile](https://github.com/hypriot/rpi-gogs-raspbian)
-
-## Start a gogs git server
-```bash
-docker run -d --name my-go-git-server --publish 8022:22 --publish 3000:3000 --volume $(pwd)/gogs-data/:/data hypriot/rpi-gogs-raspbian
-```
-Now you can access the new gogs installation by opening `http://< IP of your Raspberry Pi>:3000` in your browser
-
-## How to create this image
-
-Run all the commands from within the project root directory.
-
-### Build the Docker Image
-```bash
-make dockerbuild
-```
-
-#### Test the Docker Image
-```bash
-make testimg
-```
-
-#### Push the Docker Image to the Docker Hub
-* First use a `docker login` with username, password and email address
-* Second push the Docker Image to the official Docker Hub
-
-```bash
-make push
-```
 
 ## License
 

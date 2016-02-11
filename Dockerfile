@@ -1,6 +1,6 @@
 FROM resin/rpi-raspbian
 
-MAINTAINER Andreas Eiermann <andreas@hypriot.com>
+MAINTAINER Bastian Rinsche <hi@bastianrinsche.de>
 
 RUN apt-get update && \
 apt-get install -yqq \
@@ -23,13 +23,13 @@ RUN echo "export VISIBLE=now" >> /etc/profile
 RUN echo "PermitUserEnvironment yes" >> /etc/ssh/sshd_config
 
 # prepare data
-ENV GOGS_CUSTOM /data/gogs
-RUN echo "export GOGS_CUSTOM=/data/gogs" >> /etc/profile && \
+ENV GOGS_CUSTOM /gogits/data/custom
+RUN echo "export GOGS_CUSTOM=/gogits/data/custom" >> /etc/profile && \
 mkdir /gogits
 
 WORKDIR /gogits
 
-ADD ./content/ /gogits/
+ADD ./gogs/ /gogits/
 
 ADD start.sh /gogits/
 RUN chmod a+x start.sh
